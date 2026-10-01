@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Project EcoSense AIoT - Single Page Exhibition Poster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    :root {
+      --bg: #060913;
+      --card-bg: rgba(14, 21, 37, 0.95);
+      --card-border: rgba(56, 189, 248, 0.2);
+      --cyan: #00f2fe;
+      --indigo: #818cf8;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+    }
+
+    html, body {
+      width: 297mm;
+      height: 210mm;
+      max-width: 297mm;
+      max-height: 210mm;
+      background: #060913;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    .poster-container {
+      width: 297mm;
+      height: 210mm;
+      padding: 7mm 8mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-inside: avoid;
+    }
+
+    /* Floating Print Button for Screen View */
+    .print-btn-wrap {
+      position: fixed;
+      bottom: 12px;
+      right: 12px;
+      z-index: 999;
+    }
+    .print-btn {
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      color: #030712;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* TOP HEADER */
+    .header {
+      background: #0b1329;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 20mm;
+      border-top: 2px solid var(--cyan);
+    }
+    .header-left h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+    .header-left .subtitle {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-top: 1px;
+    }
+    .header-left .tags {
+      font-size: 0.58rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      margin-top: 2px;
+      display: flex;
+      gap: 8px;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 0.64rem;
+      line-height: 1.25;
+    }
+    .college-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    /* 3-COLUMN POSTER GRID */
+    .grid-poster {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr 1fr;
+      gap: 7px;
+      height: 168mm;
+      margin: 3mm 0;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 7px 9px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      page-break-inside: avoid;
+    }
+    .card-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .card-title .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+    }
+
+    .text-block {
+      font-size: 0.58rem;
+      line-height: 1.35;
+      color: var(--text-sub);
+    }
+    .text-block b {
+      color: #ffffff;
+    }
+
+    /* PINOUT TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.54rem;
+    }
+    th {
+      text-align: left;
+      color: var(--amber);
+      font-weight: 700;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    td {
+      padding: 2.2px 0;
+      color: var(--text-sub);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    td.pin-code {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    /* FSM COMPACT */
+    .fsm-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .fsm-step {
+      background: #0f172a;
+      border-left: 3px solid;
+      border-radius: 0 5px 5px 0;
+      padding: 5px 8px;
+    }
+    .fsm-step.init { border-color: var(--amber); }
+    .fsm-step.safe { border-color: var(--cyan); }
+    .fsm-step.hazard { border-color: var(--red); }
+
+    .fsm-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.58rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .fsm-desc {
+      font-size: 0.53rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.25;
+    }
+
+    /* MINI CANVAS */
+    .scope-box {
+      background: #030611;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 4px;
+      margin: 3px 0;
+    }
+    canvas {
+      width: 100%;
+      height: 52px;
+      display: block;
+    }
+    .scope-legend {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      margin-top: 3px;
+    }
+
+    /* FOOTER STRIP */
+    .footer {
+      height: 6mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.54rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-btn-wrap no-print">
+    <button class="print-btn" onclick="window.print()">Print 1-Page Poster</button>
+  </div>
+
+  <div class="poster-container">
+    
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-left">
+        <h1>PROJECT ECOSENSE AIoT</h1>
+        <div class="subtitle">Edge-Computing Gas Monitoring & Autonomous Hazard Mitigation Station</div>
+        <div class="tags">
+          <span>• Dual Gas Profiling</span>
+          <span>• Dynamic Baseline Drift Tracking</span>
+          <span>• 250ms Inrush Staggering</span>
+          <span>• Sub-200ms SoftAP Hub</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="college-name">SHRI RAJENDRA JUNIOR COLLEGE</div>
+        <div style="color: var(--text-muted);">New Nandanvan, Nagpur • Session 2026 - 2027</div>
+        <div style="color: var(--amber); font-weight:700;">Developer: Arhan Tariq Ansari</div>
+        <div style="color: var(--cyan); font-family: 'JetBrains Mono', monospace;">ESP32 NodeMCU • 400kHz Fast I2C • Hub: 192.168.4.1</div>
+      </div>
+    </header>
+
+    <!-- MAIN GRID -->
+    <main class="grid-poster">
+
+      <!-- COL 1 -->
+      <div class="column">
+        <div class="card" style="flex: 1;">
+          <div class="card-title"><span class="dot"></span>1. Problem & Objectives</div>
+          <div class="text-block">
+            <p><b>• INDUSTRIAL DANGER:</b> Conventional alarms act only after room saturation, lack live telemetry, and suffer false alarms from ambient drift.</p>
+            <p style="margin-top: 3px;"><b>• ENGINEERING GOAL:</b> Create an air-gapped edge safety station that tracks baselines dynamically and actuates defenses with zero cloud reliance.</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 1.15;">
+          <div class="card-title"><span class="dot"></span>2. Atmospheric Sensing Core</div>
+          <div class="text-block">
+            <p><b>• MQ-2 (Combustibles / GPIO 34):</b> SnO2 sensor monitoring LPG, propane, methane, hydrogen, and smoke particles.</p>
+            <p style="margin-top: 3px;"><b>• MQ-135 (Air Quality / GPIO 35):</b> Quantifies toxic contaminants including ammonia (NH3), CO2, and benzene.</p>
+            <p style="margin-top: 3px;"><b>• 16-PASS FAST ADC SMOOTHING:</b> Bit-shifted digital oversampling (>> 4) eliminates analog noise without blocking CPU cycles.</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 1.2;">
+          <div class="card-title"><span class="dot"></span>3. Dynamic Baseline & Hysteresis</div>
+          <div class="text-block">
+            <p><b>• ROLLING DRIFT TRACKING (EMA):</b> Eliminates false alarms from ambient room drift:</p>
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); padding: 3px 6px; border-radius: 4px; margin: 3px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.54rem; color: var(--cyan);">
+              Base = (0.99 × Base) + (0.01 × Live_ADC)<br>
+              Threshold = Base + Margin [MQ2:+300 | MQ135:+250]
+            </div>
+            <p><b>• 50-POINT HYSTERESIS:</b> Prevents destructive mechanical relay chatter near trigger boundaries.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- COL 2 -->
+      <div class="column">
+        <div class="card" style="flex: 1.25;">
+          <div class="card-title"><span class="dot"></span>4. Hardware Pinout & Wiring</div>
+          <table>
+            <thead>
+              <tr>
+                <th>MODULE</th>
+                <th>PIN</th>
+                <th>VOLT</th>
+                <th>ROLE / FUNCTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ESP32 NodeMCU</td>
+                <td class="pin-code">MCU Core</td>
+                <td>5V USB</td>
+                <td>240MHz Dual-Core SoftAP Hub</td>
+              </tr>
+              <tr>
+                <td>MQ-2 Sensor</td>
+                <td class="pin-code">GPIO 34</td>
+                <td>5V / 3.3V</td>
+                <td>ADC1 Combustible Gas Channel</td>
+              </tr>
+              <tr>
+                <td>MQ-135 Sensor</td>
+                <td class="pin-code">GPIO 35</td>
+                <td>5V / 3.3V</td>
+                <td>ADC1 Air Quality Index Channel</td>
+              </tr>
+              <tr>
+                <td>SH1106 OLED (SDA)</td>
+                <td class="pin-code">GPIO 33</td>
+                <td>3.3V</td>
+                <td>Fast I2C Data Line (400 kHz)</td>
+              </tr>
+              <tr>
+                <td>SH1106 OLED (SCL)</td>
+                <td class="pin-code">GPIO 32</td>
+                <td>3.3V</td>
+                <td>Fast I2C Clock Line (400 kHz)</td>
+              </tr>
+              <tr>
+                <td>5V Power Relay</td>
+                <td class="pin-code">GPIO 27</td>
+                <td>5V Coil</td>
+                <td>Exhaust Fan Isolation Switch</td>
+              </tr>
+              <tr>
+                <td>SG90 Micro Servo</td>
+                <td class="pin-code">GPIO 26</td>
+                <td>5V (PWM)</td>
+                <td>Damper Flap (0° Safe / 90° Vent)</td>
+              </tr>
+              <tr>
+                <td>Piezo Buzzer</td>
+                <td class="pin-code">GPIO 14</td>
+                <td>3.3V</td>
+                <td>Dynamic Staccato Warning Alarm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="flex: 1.1;">
+          <div class="card-title"><span class="dot"></span>5. Operational State Machine (FSM)</div>
+          <div class="fsm-container">
+            <div class="fsm-step init">
+              <div class="fsm-header" style="color: var(--amber);">
+                <span>STAGE 1: INIT / THERMAL WARMUP</span>
+                <span>0s - 30s</span>
+              </div>
+              <div class="fsm-desc">Heaters reach 200°C–300°C. Actuators locked idle. Clean air baselines calculated and locked.</div>
+            </div>
+
+            <div class="fsm-step safe">
+              <div class="fsm-header" style="color: var(--cyan);">
+                <span>STAGE 2: ARMED & TRACKING</span>
+                <span>Nominal</span>
+              </div>
+              <div class="fsm-desc">Live ADC &lt; Threshold. Fan OFF, Vent 0° (Closed). Baseline drifts continuously with ambient room air.</div>
+            </div>
+
+            <div class="fsm-step hazard">
+              <div class="fsm-header" style="color: var(--red);">
+                <span>STAGE 3: ACTIVE DEFENSE</span>
+                <span>Hazard Breached</span>
+              </div>
+              <div class="fsm-desc">Relay turns ON immediately. Servo opens to 90° (+250ms). Buzzer pulses at urgent 60ms rate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COL 3 -->
+      <div class="column">
+        <div class="card" style="flex: 1;">
+          <div class="card-title"><span class="dot"></span>6. Autonomous Dual Mitigation</div>
+          <div class="text-block">
+            <p><b>• INSTANT RELAY EXHAUST (0 ms):</b> Closes contacts instantly on threshold breach to activate extractor fans.</p>
+            <p style="margin-top: 3px;"><b>• STAGGERED SERVO (+250 ms):</b> Deploys vent flap to 90°. The 250ms delay eliminates simultaneous current draw, preventing ESP32 brownout resets.</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 1.15;">
+          <div class="card-title"><span class="dot"></span>7. 5 Hz Master Sync Engine</div>
+          <div class="text-block">
+            <p><b>• 200ms MASTER CLOCK:</b> Sensor acquisition, OLED rendering, and dashboard polling run synchronously.</p>
+            <p style="margin-top: 3px;"><b>• 400 kHz FAST I2C:</b> Lowers SH1106 draw latency from 100ms down to 25ms, avoiding CPU delays.</p>
+            <p style="margin-top: 3px;"><b>• PRE-ALLOCATED JSON:</b> Reserved string buffers eliminate memory fragmentation and UI stalls.</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 1.2;">
+          <div class="card-title"><span class="dot"></span>8. Telemetry & Web Oscilloscope</div>
+          <div class="scope-box">
+            <canvas id="liveChart" width="300" height="52"></canvas>
+            <div class="scope-legend">
+              <span style="color: var(--cyan);">■ MQ-2</span>
+              <span style="color: var(--amber);">- - Thr2</span>
+              <span style="color: var(--indigo);">■ MQ-135</span>
+              <span style="color: var(--red);">- - Thr135</span>
+            </div>
+          </div>
+          <div class="text-block">
+            <p><b>• AUDIT LOGGING:</b> Real-time browser logging with single-click CSV export for post-incident review.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span>Department of Science & Innovation • Shri Rajendra Junior College, Nagpur</span>
+      <span>EcoSense AIoT: Autonomous Environmental Safety Station</span>
+      <span>A4 Exhibition Presentation Sheet</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('liveChart');
+    const ctx = canvas.getContext('2d');
+    const N = 36;
+    let mq2 = new Array(N).fill(1100);
+    let mq135 = new Array(N).fill(850);
+    let t2 = new Array(N).fill(1450);
+    let t135 = new Array(N).fill(1150);
+    let tick = 0;
+
+    function draw() {
+      tick++;
+      mq2.push(1100 + Math.sin(tick*0.2)*50 + (Math.random()*30 - 15)); mq2.shift();
+      mq135.push(850 + Math.cos(tick*0.15)*35 + (Math.random()*20 - 10)); mq135.shift();
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      for (let y = 12; y < canvas.height; y += 14) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      function plot(arr, color, dashed) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = dashed ? 1 : 1.6;
+        ctx.setLineDash(dashed ? [3, 2] : []);
+        ctx.beginPath();
+        for (let i = 0; i < arr.length; i++) {
+          let x = (i / (arr.length - 1)) * canvas.width;
+          let y = canvas.height - ((arr[i] / 2000) * (canvas.height - 6)) - 3;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      plot(t2, '#f59e0b', true);
+      plot(t135, '#ef4444', true);
+      plot(mq2, '#00f2fe', false);
+      plot(mq135, '#818cf8', false);
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
